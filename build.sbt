@@ -22,5 +22,3 @@ scalacOptions ++= Seq(
   Seq("-encoding", "UTF-8") ++
   Seq("-rewrite", "-indent") ++
   Seq("-source", "future-migration")
-
-semanticdbEnabled := true // enable SemanticDB
