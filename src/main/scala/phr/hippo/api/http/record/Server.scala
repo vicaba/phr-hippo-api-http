@@ -19,7 +19,7 @@ object Server extends IOApp:
     EmberServerBuilder
       .default[IO]
       .withHost(ipv4"0.0.0.0")
-      .withPort(port"8080")
+      .withPort(port"8081")
       .withHttpApp(endpoints)
       .build
       .use(_ => IO.never)

@@ -4,7 +4,7 @@ import java.util.UUID
 
 import cats.Monad
 
-trait RecordRepository[F[_]: Monad]:
-  def create(record: Record): F[Record]
+trait RecordRepository[F[_]]:
+  def create(record: Record): F[Int]
   def get(id: UUID): F[Option[Record]]
   def list(patientId: UUID): F[List[Record]]
