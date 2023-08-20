@@ -1,4 +1,4 @@
-package phr.hippo.api.http.record.infrastructure
+package phr.hippo.api.http.record.infrastructure.repository
 
 import java.util.UUID
 

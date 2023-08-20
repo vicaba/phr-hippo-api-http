@@ -8,7 +8,8 @@ import org.typelevel.log4cats.*
 import org.typelevel.log4cats.slf4j.*
 
 import phr.hippo.api.http.record.application.RecordService
-import phr.hippo.api.http.record.infrastructure.*
+import phr.hippo.api.http.record.infrastructure.RecordRoutes
+import phr.hippo.api.http.record.infrastructure.repository.DummyRecordRepository
 
 object Server extends IOApp:
   override def run(args: List[String]): IO[ExitCode] =
