@@ -14,13 +14,12 @@ import doobie.postgres.*
 import doobie.postgres.implicits.*
 
 import phr.hippo.api.http.record.domain.*
-import phr.hippo.api.http.record.infrastructure.repository.DoobieRecordRepository.insert
 import cats.effect.kernel.Sync
 import cats.effect.IOApp
 import cats.effect.ExitCode
 import cats.effect.IO
 
-object DoobieRecordRepository:
+object RecordSQL:
   def insert(r: Record): Update0 =
     sql"""|
           |INSERT INTO record
@@ -30,13 +29,23 @@ object DoobieRecordRepository:
           |${r.header.patientId}, ${r.header.headline}, ${r.body.body})
        """.stripMargin.update
 
-  // println(insert(Record.dummy))
+def select(id: UUID): Query0[Record] =
+  sql"""
+      |SELECT id, created_at, updated_at, patient_id, headline, body
+      |FROM record
+    """.stripMargin.query
+
+// println(insert(Record.dummy))
 
 class DoobieRecordRepository[F[_]: Sync](xa: Transactor[F]) extends RecordRepository[F]:
+  import RecordSQL.*
+
   def create(record: Record): F[Int] =
     insert(record).run.transact(xa)
 
-  def get(id: UUID): F[Option[Record]] = Record.dummy.some.pure[F]
+  def get(id: UUID): F[Option[Record]] =
+    select(id).option.transact(xa)
+
   def list(patientId: UUID): F[List[Record]] = (Record.dummy :: Record.dummy :: Nil).pure[F]
 
 object Test extends IOApp:
@@ -49,4 +58,10 @@ object Test extends IOApp:
     logHandler = None,
   )
   def run(args: List[String]): IO[ExitCode] =
-    DoobieRecordRepository[IO](xa).create(Record.dummy).map(_ => ExitCode.Success)
+    for
+      _ <- DoobieRecordRepository[IO](xa).create(Record.dummy)
+      retrievedRecord <- DoobieRecordRepository[IO](xa).get(Record.dummy.header.id)
+      _ <- IO.println(retrievedRecord)
+    yield ExitCode.Success
+
+    // do DoobieRecordRepository[IO](xa).create(Record.dummy).map(_ => ExitCode.Success)

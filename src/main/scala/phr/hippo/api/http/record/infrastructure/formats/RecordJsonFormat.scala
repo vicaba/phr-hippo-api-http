@@ -11,7 +11,7 @@ import org.http4s.circe.*
 import phr.hippo.api.http.record.domain.Record
 
 object RecordJsonFormat:
-  given Decoder[Record] = deriveDecoder[Record]
-  given Encoder[Record] = deriveEncoder[Record]
+  given recordDecoder: Decoder[Record] = deriveDecoder[Record]
+  given recordEncoder: Encoder[Record] = deriveEncoder[Record]
   given recordEntityEncoder[F[_]: Monad]: EntityEncoder[F, Record] = jsonEncoderOf[Record]
   given recordEntityDecoder[F[_]: Concurrent]: EntityDecoder[F, Record] = jsonOf[F, Record]

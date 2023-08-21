@@ -10,10 +10,19 @@ import org.typelevel.log4cats.slf4j.*
 import phr.hippo.api.http.record.application.RecordService
 import phr.hippo.api.http.record.infrastructure.RecordRoutes
 import phr.hippo.api.http.record.infrastructure.repository.DummyRecordRepository
+import phr.hippo.api.http.record.infrastructure.repository.DoobieRecordRepository
+import doobie.util.transactor.Transactor
 
 object Server extends IOApp:
   override def run(args: List[String]): IO[ExitCode] =
-    val recordService = RecordService[IO](DummyRecordRepository())
+    val xa: Transactor[IO] = Transactor.fromDriverManager[IO](
+      driver = "org.postgresql.Driver",
+      url = "jdbc:postgresql:hippodb", // Localhost by default
+      user = "docker",
+      password = "docker",
+      logHandler = None,
+    )
+    val recordService = RecordService[IO](DoobieRecordRepository(xa))
     val endpoints = RecordRoutes[IO](recordService).allEndpointsComplete
 
     EmberServerBuilder
