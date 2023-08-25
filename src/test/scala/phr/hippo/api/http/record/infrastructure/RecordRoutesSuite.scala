@@ -23,8 +23,9 @@ import phr.hippo.api.http.record.domain.*
 import phr.hippo.api.http.record.infrastructure.formats.RecordJsonFormat.given
 
 class RecordRoutesSuite extends munit.Http4sHttpRoutesSuite:
+  val dummyRecord: Record = Record.dummy
+
   class RecordRepositoryMock[F[_]: Applicative] extends RecordRepository[F]:
-    val dummyRecord: Record = Record.dummy
     def create(record: Record): F[Int] = 1.pure
     def get(id: UUID): F[Option[Record]] = dummyRecord.some.pure
     def list(patientId: UUID): F[List[Record]] = ???
@@ -34,36 +35,9 @@ class RecordRoutesSuite extends munit.Http4sHttpRoutesSuite:
   override val routes: HttpRoutes[IO] =
     RecordRoutes[IO](RecordService(recordRepository)).allEndpoints
 
-  test(GET(uri"record" / UUID.randomUUID())).alias("Say hello to Jose") { response =>
+  test(GET(uri"record" / dummyRecord.header.id)).alias("Create Record") { response =>
     val result = response.as[String].map(parse)
-    val expected = Record.dummy.asJson
+    val expected = dummyRecord.asJson
 
-    // TODO: Not working
     assertIO(result, Right(expected))
-
-    /*
-    val json: String = """
-      {
-        "id": "c730433b-082c-4984-9d66-855c243266f0",
-        "name": "Foo",
-        "counts": [1, 2, 3],
-        "values": {
-          "bar": true,
-          "baz": 100.001,
-          "qux": ["a", "b"]
-        }
-      }
-    """
-
-    val doc: Json = parse(json).getOrElse(Json.Null)
-
-    assertEquals(doc, doc)
-
-     */
   }
-
-  // test("RecordRoutes.getRecordEndpoint"):
-  //   val response: OptionT[cats.effect.IO, Response[cats.effect.IO]] =
-  //     RecordRoutes[IO](RecordService(recordRepository))
-  //       .allEndpoints
-  //       .run(Request(method = Method.GET, uri = uri"/user/not-used"))
