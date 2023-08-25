@@ -7,8 +7,8 @@ lazy val root = (project in file("."))
     name := "phr-hippo-api-http"
   )
 
-ThisBuild / semanticdbEnabled := true
-ThisBuild / semanticdbVersion := scalafixSemanticdb.revision
+// ThisBuild / semanticdbEnabled := true
+// ThisBuild / semanticdbVersion := scalafixSemanticdb.revision
 scalacOptions ++= Seq(
   "-Wunused:all", // always on for OrganizeImports
   "-Ykind-projector",

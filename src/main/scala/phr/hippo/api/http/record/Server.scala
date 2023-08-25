@@ -14,6 +14,7 @@ import phr.hippo.api.http.record.infrastructure.repository.DoobieRecordRepositor
 import doobie.util.transactor.Transactor
 
 object Server extends IOApp:
+
   override def run(args: List[String]): IO[ExitCode] =
     val xa: Transactor[IO] = Transactor.fromDriverManager[IO](
       driver = "org.postgresql.Driver",

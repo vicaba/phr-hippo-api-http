@@ -21,6 +21,7 @@ case class Record(
 )
 
 object Record:
+  // TODO: Method signature should be changed
   def dummy: Record =
     def dummyHeader: RecordHeader =
       RecordHeader(

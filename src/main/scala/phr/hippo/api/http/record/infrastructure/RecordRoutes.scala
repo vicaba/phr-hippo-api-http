@@ -29,11 +29,9 @@ class RecordRoutes[F[_]: Concurrent](recordService: RecordService[F]) extends Ht
   def getRecordEndpoint: HttpRoutes[F] =
     HttpRoutes.of[F]:
       case GET -> Root / "record" / UUIDVar(recordId) =>
-        recordService.get(recordId).flatMap { recordOpt =>
-          recordOpt match
-            case Some(record) => Ok(record.asJson)
-            case None => NotFound("{ error: Record not found }")
-        }
+        recordService.get(recordId).flatMap:
+          case Some(record) => Ok(record.asJson)
+          case None => NotFound("{ error: Record not found }")
 
   def allEndpoints: HttpRoutes[F] =
     getRecordEndpoint
