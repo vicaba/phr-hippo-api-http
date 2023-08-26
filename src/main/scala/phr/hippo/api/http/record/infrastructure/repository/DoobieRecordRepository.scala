@@ -33,6 +33,7 @@ def select(id: UUID): Query0[Record] =
   sql"""
       |SELECT id, created_at, updated_at, patient_id, headline, body
       |FROM record
+      |WHERE id = $id
     """.stripMargin.query
 
 // println(insert(Record.dummy))
