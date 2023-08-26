@@ -7,9 +7,7 @@ import org.typelevel.log4cats.*
 import org.typelevel.log4cats.slf4j.*
 import phr.hippo.api.http.record.application.RecordService
 import phr.hippo.api.http.record.infrastructure.RecordRoutes
-import phr.hippo.api.http.record.infrastructure.repository.DummyRecordRepository
 import phr.hippo.api.http.record.infrastructure.repository.DoobieRecordRepository
-import doobie.util.transactor.Transactor
 import phr.hippo.api.http.infrastructure.DatabaseConfig
 
 import org.http4s.server.Server as Http4Server
