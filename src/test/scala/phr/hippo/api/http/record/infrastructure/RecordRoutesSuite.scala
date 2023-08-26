@@ -22,9 +22,10 @@ class RecordRoutesSuite extends munit.Http4sHttpRoutesSuite:
   val dummyRecord: Record = Record.dummy
 
   class RecordRepositoryMock[F[_]: Applicative] extends RecordRepository[F]:
-    def create(record: Record): F[Int] = 1.pure
-    def get(id: UUID): F[Option[Record]] = dummyRecord.some.pure
-    def list(patientId: UUID): F[List[Record]] = ???
+    override def create(record: Record): F[Int] = 1.pure
+    override def get(id: UUID): F[Option[Record]] = dummyRecord.some.pure
+    override def list(patientId: UUID): F[List[Record]] = ???
+    override def delete(id: UUID): F[Int] = 1.pure
 
   val recordRepository: RecordRepositoryMock[IO] = RecordRepositoryMock[IO]()
 
