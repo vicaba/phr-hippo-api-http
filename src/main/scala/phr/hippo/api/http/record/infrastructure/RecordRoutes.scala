@@ -44,7 +44,7 @@ class RecordRoutes[F[_]: Concurrent](recordService: RecordService[F]) extends Ht
           case _ => NotFound("{ error: Record not found }")
 
   def allEndpoints: HttpRoutes[F] =
-    getRecordEndpoint <+> createRecordEndpoint
+    getRecordEndpoint <+> createRecordEndpoint <+> deleteRecordEndpoint
 
   def allEndpointsComplete: HttpApp[F] =
     allEndpoints.orNotFound
