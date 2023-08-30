@@ -16,19 +16,30 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+
       - name: Use coursier cache
         uses: coursier/cache-action@v6.4.3
+
       - name: Set up coursier with JDK 20 temurin
         uses: coursier/setup-action@v1.3.3
         with:
           jvm: temurin:20
           apps: sbtn
+
       - name: Run unit and integration tests
         run: sbt test
+
+      - name: Start app in background
+        run: sbt run < /dev/null > output-file
+
       - name: Start docker compose
-        run: cd ./docker && docker compose up -d
+        run: cd ./docker && docker compose up
+
+      - name: Run app
+        run: sbt run < /dev/null & SBT_PID=$!
+
       - name: Run e2e tests
-        run: cd ./e2e && npm install && ls
+        run: cd ./e2e && npm install && sleep 2 && npm test
         # Optional: This step uploads information to the GitHub dependency graph and unblocking Dependabot alerts for the repository
     # - name: Upload dependency graph
     #   uses: scalacenter/sbt-dependency-submission@ab086b50c947c9774b70f39fc7f6e20ca2706c91
