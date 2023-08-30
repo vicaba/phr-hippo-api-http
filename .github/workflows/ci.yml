@@ -1,0 +1,30 @@
+name: Scala CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use coursier cache
+        uses: coursier/cache-action@v6.4.3
+      - name: Set up coursier with JDK 20 temurin
+        uses: coursier/setup-action@v1.3.3
+        with:
+          jvm: temurin:20
+          apps: sbtn
+      - name: Run tests
+        run: sbt test
+        # Optional: This step uploads information to the GitHub dependency graph and unblocking Dependabot alerts for the repository
+    # - name: Upload dependency graph
+    #   uses: scalacenter/sbt-dependency-submission@ab086b50c947c9774b70f39fc7f6e20ca2706c91
