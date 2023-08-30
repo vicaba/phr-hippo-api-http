@@ -33,7 +33,7 @@ describe("Restful Record API tests", () => {
             .set("Content-Type", "application/json")
             .end((err, res) => {
                 // console.log(res.res.req)
-                expect(res.statusCode).to.be.equal(200)
+                expect(res.statusCode).to.be.equal(201)
                 console.log(res.body)
                 if (err) done(err);
                 done();
