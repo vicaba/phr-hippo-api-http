@@ -33,10 +33,10 @@ jobs:
 #        run: cd ./docker && docker compose up -d
 
       - name: Run app in background
-        run: sbt run # < /dev/null & SBT_PID=$!
+        run: sbt run < /dev/null & SBT_PID=$!
 
-#      - name: Ping
-#        run: curl --head http://localhost:8081
+      - name: Wait until health check is HTTP 200
+        run: ./wait.sh
 
 #
 #      - name: Run e2e tests
