@@ -30,7 +30,7 @@ jobs:
         run: sbt test
 
       - name: Start docker compose
-        run: cd ./docker && docker compose up
+        run: cd ./docker && docker compose up -d
 
       - name: Run app in background
         run: sbt run < /dev/null & SBT_PID=$!
