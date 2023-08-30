@@ -6,3 +6,8 @@ Personal Health Record HTTP API. Track your health-related events.
 * http4s
 * doobie
 * postgress
+
+## Testing
+
+### Testing e2e
+Docker image used for e2e testing:

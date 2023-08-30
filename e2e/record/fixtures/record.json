@@ -1,0 +1,11 @@
+{
+  "header": {
+    "createdAt": "2023-08-21T18:58:28.660233Z",
+    "updatedAt": "2023-08-21T18:58:28.660234Z",
+    "patientId": "233d98b9-b003-4b1f-b7f3-a2bde16604f5",
+    "headline": "Back pain"
+  },
+  "body": {
+    "body": "The back pain was sudden, just when I woke up today."
+  }
+}
