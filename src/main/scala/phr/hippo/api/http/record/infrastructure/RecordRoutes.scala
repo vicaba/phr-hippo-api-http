@@ -16,15 +16,29 @@ import phr.hippo.api.http.record.application.*
 import phr.hippo.api.http.record.domain.Record
 import phr.hippo.api.http.record.infrastructure.formats.RecordJsonFormat.given
 
+import phr.hippo.api.http.record.infrastructure.formats.Messages.*
+import phr.hippo.api.http.record.infrastructure.formats.MessagesJsonFormat.given
+
 class RecordRoutes[F[_]: Concurrent](recordService: RecordService[F]) extends Http4sDsl[F]:
   def createRecordEndpoint: HttpRoutes[F] =
     HttpRoutes.of[F]:
       case req @ POST -> Root / "record" =>
-        for
-          record <- req.as[Record]
-          saved <- recordService.create(record)
-          resp <- Ok(saved.asJson)
-        yield resp
+        req
+          .attemptAs[CreateRecord]
+          .value
+          .flatMap:
+            case Left(decodingFailure) =>
+              UnprocessableEntity(decodingFailure.cause.get.toString)
+            case Right(createRecord) =>
+              for
+                saved <- recordService.create(createRecord)
+                resp <- saved match
+                  case Some(record) => Ok(record)
+                  case None =>
+                    InternalServerError(
+                      "{ error: The database could not process your request, try again later. }"
+                    )
+              yield resp
 
   // /record/a2d67669-8ec1-4b10-832b-48afae445604
   def getRecordEndpoint: HttpRoutes[F] =
