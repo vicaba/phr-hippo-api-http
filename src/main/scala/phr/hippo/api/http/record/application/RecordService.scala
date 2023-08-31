@@ -2,9 +2,27 @@ package phr.hippo.api.http.record.application
 
 import cats.Monad
 import cats.syntax.all.*
+import phr.hippo.api.http.record.application.Commands.CreateRecord
+
 import java.util.UUID
 import phr.hippo.api.http.record.domain.*
-import phr.hippo.api.http.record.infrastructure.formats.Messages.CreateRecord
+
+import java.time.Instant
+
+object Commands:
+  case class CreateRecordHeader(patientId: UUID, headline: String)
+  case class CreateRecordBody(body: String)
+  case class CreateRecord(header: CreateRecordHeader, body: CreateRecordBody):
+    def toRecord: Record = Record(
+      RecordHeader(
+        UUID.randomUUID(),
+        Instant.now(),
+        Instant.now(),
+        header.patientId,
+        header.headline,
+      ),
+      RecordBody(body.body),
+    )
 
 class RecordService[F[_]: Monad](recordRepository: RecordRepository[F]):
   def create(cr: CreateRecord): F[Option[Record]] =

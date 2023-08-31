@@ -3,21 +3,16 @@ package phr.hippo.api.http.record.infrastructure
 import cats.*
 import cats.effect.Concurrent
 import cats.implicits.*
-
 import io.circe.*
 import io.circe.syntax.*
-
 import org.http4s.*
 import org.http4s.circe.*
 import org.http4s.dsl.*
 import org.http4s.implicits.*
-
 import phr.hippo.api.http.record.application.*
+import phr.hippo.api.http.record.application.Commands.*
 import phr.hippo.api.http.record.domain.Record
 import phr.hippo.api.http.record.infrastructure.formats.RecordJsonFormat.given
-
-import phr.hippo.api.http.record.infrastructure.formats.Messages.*
-import phr.hippo.api.http.record.infrastructure.formats.MessagesJsonFormat.given
 
 class RecordRoutes[F[_]: Concurrent](recordService: RecordService[F]) extends Http4sDsl[F]:
   def createRecordEndpoint: HttpRoutes[F] =
