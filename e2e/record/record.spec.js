@@ -11,33 +11,27 @@ describe("Restful Record API tests", () => {
     console.log(baseUrl)
     var recordId = undefined
 
-/*    it("should successfully create a record", (done) => {
-        request(baseUrl)
+    it("should successfully create a record and retrieve it", async () => {
+        let createReq = await request(baseUrl)
             .post("/record")
             .send(record)
             .set("Accept", "application/json")
             .set("Content-Type", "application/json")
-            .end((err, res) => {
-                // console.log(res.res.req)
-                expect(res.statusCode).to.be.equal(200)
-                if (err) done(err);
-                done();
-            });
-    });*/
-    // npm run test
-    // Test passing
-    it("should successfully get a record", (done) => {
-        request(baseUrl)
-            .get("/record/292a485f-a56a-4938-8f1a-bbbbbbbbbbb1" )
+
+        expect(createReq.statusCode).to.be.equal(200)
+        expect(createReq.body.header.patientId).to.be.equal(record.header.patientId)
+        expect(createReq.body.header.headline).to.be.equal(record.header.headline)
+        expect(createReq.body.body.body).to.be.equal(record.body.body)
+
+        let getReq = await request(baseUrl)
+            .get("/record/" + createReq.body.header.id)
             .set("Accept", "application/json")
             .set("Content-Type", "application/json")
-            .end((err, res) => {
-                // console.log(res.res.req)
-                expect(res.statusCode).to.be.equal(200)
-                console.log(res.body)
-                if (err) done(err);
-                done();
-            });
+
+        expect(getReq.statusCode).to.be.equal(200)
+        expect(getReq.body.toString()).to.be.equal(createReq.body.toString())
+
+
     });
 
 })
