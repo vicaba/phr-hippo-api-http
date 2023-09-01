@@ -1,22 +1,22 @@
 package phr.hippo.api.http.record.infrastructure
 
 import java.util.UUID
+import scala.util.{ Failure, Success, Try }
+import munit.*
 import cats.Applicative
 import cats.effect.IO
 import cats.syntax.all.*
 import io.circe.*
 import io.circe.syntax.*
 import io.circe.parser.*
-import munit.*
 import org.http4s.*
+import org.http4s.circe.*
 import org.http4s.dsl.io.*
 import org.http4s.dsl.*
 import org.http4s.implicits.*
 import phr.hippo.api.http.record.application.RecordService
 import phr.hippo.api.http.record.domain.*
 import phr.hippo.api.http.record.infrastructure.formats.RecordJsonFormat.given
-
-import scala.util.Try
 
 class RecordRoutesSuite extends munit.Http4sHttpRoutesSuite:
   val dummyRecord: Record = Record.dummy
@@ -39,9 +39,19 @@ class RecordRoutesSuite extends munit.Http4sHttpRoutesSuite:
     assertIO(result, Right(expected))
   }
 
-  test(POST(uri"record").withEntity[IO, Record](dummyRecord)).alias("Create Record") { response =>
-    val result = response.as[String].map(n => Try(n.toInt).toEither)
-    val expected = 1
+  test(POST(uri"record").withEntity[IO, Record](dummyRecord)).alias("Create Record has an id"):
+    response =>
+      val id =
+        response
+          .as[Json]
+          .map(_.hcursor.get[Json]("header").flatMap(_.hcursor.get[String]("id")))
+          .map:
+            case Right(stringId) =>
+              Try(UUID.fromString(stringId)) match
+                case Success(_) => Success
+                case Failure(_) => Failure
+            case Left(failure) => Failure(failure)
+      println(id.unsafeRunSync())
+      val expected = Success
 
-    assertIO(result, Right(expected))
-  }
+      assertIO(id, expected)
