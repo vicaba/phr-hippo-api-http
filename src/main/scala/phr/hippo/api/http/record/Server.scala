@@ -3,6 +3,7 @@ package phr.hippo.api.http.record
 import cats.effect.*
 import cats.implicits.*
 import com.comcast.ip4s.*
+import com.zaxxer.hikari.HikariConfig
 import fs2.io.net.Network
 import org.http4s.ember.server.EmberServerBuilder
 import org.http4s.server.Server as Http4Server
@@ -18,7 +19,7 @@ import scala.concurrent.ExecutionContext
 object Server extends IOApp:
   def createServer[F[_]: Async: Network]: Resource[F, Http4Server] =
     val dbConfig = DatabaseConfig(
-      "jdbc:postgresql:hippodb",
+      "jdbc:postgresql:hippodb?connectionTimeZone=UTC",
       "org.postgresql.ds.PGSimpleDataSource",
       "docker",
       "docker",

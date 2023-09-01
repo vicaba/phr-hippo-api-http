@@ -41,17 +41,18 @@ class RecordRoutesSuite extends munit.Http4sHttpRoutesSuite:
 
   test(POST(uri"record").withEntity[IO, Record](dummyRecord)).alias("Create Record has an id"):
     response =>
-      val id =
-        response
-          .as[Json]
-          .map(_.hcursor.get[Json]("header").flatMap(_.hcursor.get[String]("id")))
-          .map:
-            case Right(stringId) =>
-              Try(UUID.fromString(stringId)) match
-                case Success(_) => Success
-                case Failure(_) => Failure
-            case Left(failure) => Failure(failure)
-      println(id.unsafeRunSync())
-      val expected = Success
+      val hasIdAndIsUUID =
+        for
+          json <- response.as[Json]
+          decodeResult <- IO.pure(
+            json.hcursor.get[Json]("header").flatMap(_.hcursor.get[String]("id"))
+          )
+          maybeIdAndMaybeUUID <- IO.pure(decodeResult.flatMap: maybeUUID =>
+            Try(UUID.fromString(maybeUUID)).toEither)
+        yield maybeIdAndMaybeUUID match
+          case Right(_) => true
+          case _ => false
 
-      assertIO(id, expected)
+      val expected = true
+
+      assertIO(hasIdAndIsUUID, expected, "does not have id field or is not an UUID")

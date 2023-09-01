@@ -11,7 +11,7 @@ describe("Restful Record API tests", () => {
     console.log(baseUrl)
     var recordId = undefined
 
-    it("should successfully create a record", async () => {
+    it("should successfully create a record and retrieve it", async () => {
         let createReq = await request(baseUrl)
             .post("/record")
             .send(record)
@@ -29,22 +29,10 @@ describe("Restful Record API tests", () => {
             .set("Content-Type", "application/json")
 
         expect(getReq.statusCode).to.be.equal(200)
-        expect(getReq.body).to.be.equal(createReq.body)
+        expect(getReq.body.toString()).to.be.equal(createReq.body.toString())
 
 
     });
-    // it("should successfully get a record", (done) => {
-    //     request(baseUrl)
-    //         .get("/record/292a485f-a56a-4938-8f1a-bbbbbbbbbbb1")
-    //         .set("Accept", "application/json")
-    //         .set("Content-Type", "application/json")
-    //         .end((err, res) => {
-    //             // console.log(res.res.req)
-    //             console.log(res.body)
-    //             if (err) done(err);
-    //             done();
-    //         });
-    // });
 
 })
 
