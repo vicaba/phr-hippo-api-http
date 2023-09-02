@@ -16,6 +16,14 @@ services:
     networks:
       - hippo-api-http-network
 
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - hippo-api-http-network
+
 networks:
   hippo-api-http-network:
     name: hippo-api-http
