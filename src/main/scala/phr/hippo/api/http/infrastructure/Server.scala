@@ -3,13 +3,11 @@ package phr.hippo.api.http.infrastructure
 import cats.effect.*
 import cats.implicits.*
 import com.comcast.ip4s.*
-import com.zaxxer.hikari.HikariConfig
 import fs2.io.net.Network
 import org.http4s.ember.server.EmberServerBuilder
 import org.http4s.server.Server as Http4Server
 import org.typelevel.log4cats.*
 import org.typelevel.log4cats.slf4j.*
-import phr.hippo.api.http.infrastructure.{DatabaseConfig, HealthCheckRoutes}
 import phr.hippo.api.http.record.application.RecordService
 import phr.hippo.api.http.record.infrastructure.RecordRoutes
 import phr.hippo.api.http.record.infrastructure.repository.DoobieRecordRepository
