@@ -3,11 +3,11 @@ name: Scala CI
 on:
   push:
     paths-ignore:
-      - "./**.md"
+      - "**.md"
   pull_request:
     branches: [ "main" ]
     paths-ignore:
-      - "./**.md"
+      - "**.md"
 
 permissions:
   contents: read
