@@ -5,7 +5,7 @@ Personal Health Record HTTP API. Track your health-related events.
 * Scala
 * http4s
 * doobie
-* postgress
+* postgres
 
 ## Development environment¡¡
 
