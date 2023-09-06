@@ -2,7 +2,7 @@
 Personal Health Record HTTP API. Track your health-related events.
 
 ## Tech stack
-* Scala
+* scala
 * http4s
 * doobie
 * postgres
