@@ -15,6 +15,6 @@ To run docker compose for dev environment run:
 docker compose -f docker-compose.yml -f docker-compose-dev.yml up
 ```
 
-### Testing e2e
+### Testing
 * MUnit is used for unit and integration testing.
 * Nodejs with `mocha`, `chai` and `supertest` are used for end-to-end testing.
