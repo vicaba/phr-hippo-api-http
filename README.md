@@ -7,7 +7,7 @@ Personal Health Record HTTP API. Track your health-related events.
 * doobie
 * postgress
 
-## Development environment and testing
+## Development environment¡¡
 
 To run docker compose for dev environment run:
 
@@ -16,4 +16,5 @@ docker compose -f docker-compose.yml -f docker-compose-dev.yml up
 ```
 
 ### Testing e2e
-Docker image used for e2e testing:
+* MUnit is used for unit and integration testing.
+* Nodejs with `mocha`, `chai` and `supertest` are used for end-to-end testing.
