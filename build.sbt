@@ -2,7 +2,7 @@ ThisBuild / version := "0.1.0"
 
 ThisBuild / scalaVersion := "3.3.0"
 
-Compile / mainClass := Some("phr.hippo.api.http.record.Server")
+Compile / mainClass := Some("phr.hippo.api.http.infrastructure.Server")
 
 lazy val root = (project in file("."))
   .settings(

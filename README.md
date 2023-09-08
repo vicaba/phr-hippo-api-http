@@ -2,12 +2,12 @@
 Personal Health Record HTTP API. Track your health-related events.
 
 ## Tech stack
-* Scala
+* scala
 * http4s
 * doobie
-* postgress
+* postgres
 
-## Development environment and testing
+## Development environment¡¡
 
 To run docker compose for dev environment run:
 
@@ -15,5 +15,6 @@ To run docker compose for dev environment run:
 docker compose -f docker-compose.yml -f docker-compose-dev.yml up
 ```
 
-### Testing e2e
-Docker image used for e2e testing:
+### Testing
+* `MUnit` is used for unit and integration testing.
+* `Nodejs` with `mocha`, `chai` and `supertest` are used for end-to-end testing.
