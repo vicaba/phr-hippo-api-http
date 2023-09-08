@@ -25,7 +25,7 @@ jobs:
         id: changed-files-yaml
         uses: tj-actions/changed-files@v39
         with:
-          since-last-remote-commit: 'true'
+          since_last_remote_commit: 'true'
           files_yaml: |
             all-relevant:
               - '**'
