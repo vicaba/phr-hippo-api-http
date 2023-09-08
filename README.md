@@ -16,5 +16,5 @@ docker compose -f docker-compose.yml -f docker-compose-dev.yml up
 ```
 
 ### Testing
-* `MUnit` is used for unit and integration testing.
+* MUnit is used for unit and integration testing.
 * `Nodejs` with `mocha`, `chai` and `supertest` are used for end-to-end testing.
