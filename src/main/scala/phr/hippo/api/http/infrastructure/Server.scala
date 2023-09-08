@@ -16,6 +16,7 @@ import scala.concurrent.ExecutionContext
 
 object Server extends IOApp:
   def createServer[F[_]: Async: Network]: Resource[F, Http4Server] =
+    // TODO: This parameters have to be extracted into a config file
     val dbConfig = DatabaseConfig(
       "jdbc:postgresql:hippodb?connectionTimeZone=UTC",
       "org.postgresql.ds.PGSimpleDataSource",
