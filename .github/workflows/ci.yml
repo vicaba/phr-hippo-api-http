@@ -3,12 +3,8 @@ name: Scala CI
 on:
   push:
     branches: [ "main" ]
-    paths-ignore:
-      - "./**.md"
   pull_request:
     branches: [ "main" ]
-    paths-ignore:
-      - "./**.md"
 
 permissions:
   contents: read
@@ -26,6 +22,7 @@ jobs:
         id: changed-files-yaml
         uses: tj-actions/changed-files@v39
         with:
+          since-last-remote-commit: 'true'
           files_yaml: |
             all-relevant:
               - '**'
