@@ -32,7 +32,7 @@ object Server extends IOApp:
       server <- EmberServerBuilder
         .default[F]
         .withHost(ipv4"0.0.0.0")
-        .withPort(port"8083")
+        .withPort(port"8084")
         .withHttpApp(allEndpoints.orNotFound)
         .build
     yield server
