@@ -18,7 +18,7 @@
 #      - uses: actions/checkout@v4
 #        with:
 #          fetch-depth: 2
-#          ref: ${{ github.event.pull_request.head.sha }}
+#          ref: ${{ github.event.pull_request.head.sha }} # See: https://github.com/tj-actions/changed-files/discussions/1549
 #      - name: Get all relevant files that have changed
 #        id: changed-files-yaml
 #        uses: tj-actions/changed-files@v39
