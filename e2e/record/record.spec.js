@@ -34,15 +34,15 @@ describe("Restful Record API tests", () => {
         let deleteReq = await request(baseUrl)
             .delete("/record/" + createReq.body.header.id)
 
-        expect(getReq.statusCode).to.be.equal(200)
-        expect(getReq.body.toString()).to.be.equal("")
+        expect(deleteReq.statusCode).to.be.equal(200)
+        expect(deleteReq.body).to.be.empty
 
         let getAfterDeleteReq = await request(baseUrl)
             .get("/record/" + createReq.body.header.id)
             .set("Accept", "application/json")
             .set("Content-Type", "application/json")
 
-        expect(getReq.statusCode).to.be.equal(404)
+        expect(getAfterDeleteReq.statusCode).to.be.equal(404)
 
     });
 
