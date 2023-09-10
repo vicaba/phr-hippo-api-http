@@ -1,4 +1,4 @@
-// require("debug").enable("supertest*")
+require("debug").enable("supertest*")
 
 const request = require("supertest")
 const expect = require("chai").expect
@@ -31,6 +31,18 @@ describe("Restful Record API tests", () => {
         expect(getReq.statusCode).to.be.equal(200)
         expect(getReq.body.toString()).to.be.equal(createReq.body.toString())
 
+        let deleteReq = await request(baseUrl)
+            .delete("/record/" + createReq.body.header.id)
+
+        expect(getReq.statusCode).to.be.equal(200)
+        expect(getReq.body.toString()).to.be.equal("")
+
+        let getAfterDeleteReq = await request(baseUrl)
+            .get("/record/" + createReq.body.header.id)
+            .set("Accept", "application/json")
+            .set("Content-Type", "application/json")
+
+        expect(getReq.statusCode).to.be.equal(404)
 
     });
 
