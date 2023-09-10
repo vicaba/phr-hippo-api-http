@@ -48,9 +48,12 @@ class RecordRoutes[F[_]: Concurrent](recordService: RecordService[F]) extends Ht
   def deleteRecordEndpoint: HttpRoutes[F] =
     HttpRoutes.of[F]:
       case DELETE -> Root / "record" / UUIDVar(recordId) =>
-        recordService.delete(recordId) match
-          case 1 => Ok()
-          case _ => NotFound("{ error: Record not found }")
+        for
+          res <- recordService.delete(recordId)
+          resp <- res match
+            case 1 => Ok()
+            case _ => NotFound("{ error: Record not found }")
+        yield resp
 
   def allEndpoints: HttpRoutes[F] =
     getRecordEndpoint <+> createRecordEndpoint <+> deleteRecordEndpoint
